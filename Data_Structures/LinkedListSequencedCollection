@@ -1,3 +1,4 @@
+```
 // File: LinkedListSequencedCollection.java
 // Linked List with sequenced (index-based) operations
 
@@ -136,3 +137,4 @@ public class LinkedListSequencedCollection<T> {
         System.out.println("Size: " + list.size()); // 3
     }
 }
+```
