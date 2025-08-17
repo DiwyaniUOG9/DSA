@@ -1,0 +1,133 @@
+```java
+// File: PriorityQueueQueue.java
+// Priority Queue implementation using Min-Heap (Array-based)
+
+import java.util.Arrays;
+
+public class PriorityQueueQueue<T> {
+    private static class Node<T> {
+        T data;
+        int priority;
+
+        Node(T data, int priority) {
+            this.data = data;
+            this.priority = priority;
+        }
+
+        public String toString() {
+            return data + "(p=" + priority + ")";
+        }
+    }
+
+    private Node<T>[] heap;
+    private int size;
+
+    @SuppressWarnings("unchecked")
+    public PriorityQueueQueue(int capacity) {
+        heap = (Node<T>[]) new Node[capacity];
+        size = 0;
+    }
+
+    // Insert element with priority
+    public void enqueue(T data, int priority) {
+        if (size == heap.length) {
+            throw new IllegalStateException("Priority Queue is full");
+        }
+        heap[size] = new Node<>(data, priority);
+        siftUp(size);
+        size++;
+    }
+
+    // Remove and return element with highest priority (smallest value)
+    public T dequeue() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Priority Queue is empty");
+        }
+        T rootData = heap[0].data;
+        heap[0] = heap[size - 1];
+        size--;
+        siftDown(0);
+        return rootData;
+    }
+
+    // Peek at element with highest priority
+    public T peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Priority Queue is empty");
+        }
+        return heap[0].data;
+    }
+
+    // Heap helper: sift up
+    private void siftUp(int index) {
+        while (index > 0) {
+            int parent = (index - 1) / 2;
+            if (heap[index].priority >= heap[parent].priority) break;
+            swap(index, parent);
+            index = parent;
+        }
+    }
+
+    // Heap helper: sift down
+    private void siftDown(int index) {
+        while (index < size) {
+            int left = 2 * index + 1;
+            int right = 2 * index + 2;
+            int smallest = index;
+
+            if (left < size && heap[left].priority < heap[smallest].priority) {
+                smallest = left;
+            }
+            if (right < size && heap[right].priority < heap[smallest].priority) {
+                smallest = right;
+            }
+            if (smallest == index) break;
+
+            swap(index, smallest);
+            index = smallest;
+        }
+    }
+
+    private void swap(int i, int j) {
+        Node<T> temp = heap[i];
+        heap[i] = heap[j];
+        heap[j] = temp;
+    }
+
+    // Utility
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    // Print queue (heap array view)
+    public void printQueue() {
+        System.out.print("PriorityQueue: ");
+        for (int i = 0; i < size; i++) {
+            System.out.print(heap[i] + " ");
+        }
+        System.out.println();
+    }
+
+    // Main for testing
+    public static void main(String[] args) {
+        PriorityQueueQueue<String> pq = new PriorityQueueQueue<>(10);
+
+        pq.enqueue("Task A", 3);
+        pq.enqueue("Task B", 1);
+        pq.enqueue("Task C", 2);
+
+        pq.printQueue();  // unsorted internally, but heap property maintained
+
+        System.out.println("Peek: " + pq.peek()); // Task B
+        System.out.println("Dequeue: " + pq.dequeue()); // Task B
+
+        pq.printQueue();
+        System.out.println("Dequeue: " + pq.dequeue()); // Task C
+        System.out.println("Dequeue: " + pq.dequeue()); // Task A
+    }
+}
+```
