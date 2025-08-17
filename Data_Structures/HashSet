@@ -1,3 +1,4 @@
+```java
 // File: HashSetSet.java
 // Simple Set implementation using Java's HashSet
 
@@ -72,3 +73,4 @@ public class HashSetSet<T> {
         mySet.printSet(); // {}
     }
 }
+```
