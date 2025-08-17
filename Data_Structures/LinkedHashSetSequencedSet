@@ -1,0 +1,89 @@
+// File: LinkedHashSetSequencedSet.java
+// Set implementation using LinkedHashSet to preserve insertion order
+
+import java.util.LinkedHashSet;
+
+public class LinkedHashSetSequencedSet<T> {
+    private LinkedHashSet<T> set;
+
+    // Constructor
+    public LinkedHashSetSequencedSet() {
+        set = new LinkedHashSet<>();
+    }
+
+    // Add element (maintains insertion order)
+    public boolean add(T element) {
+        return set.add(element); // returns false if already exists
+    }
+
+    // Remove element
+    public boolean remove(T element) {
+        return set.remove(element);
+    }
+
+    // Check if element exists
+    public boolean contains(T element) {
+        return set.contains(element);
+    }
+
+    // Get size of set
+    public int size() {
+        return set.size();
+    }
+
+    // Check if set is empty
+    public boolean isEmpty() {
+        return set.isEmpty();
+    }
+
+    // Clear the set
+    public void clear() {
+        set.clear();
+    }
+
+    // Print all elements in insertion order
+    public void printSet() {
+        System.out.println("Set (insertion order): " + set);
+    }
+
+    // Get element by index (since insertion order is preserved)
+    public T get(int index) {
+        if (index < 0 || index >= set.size()) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+        int i = 0;
+        for (T element : set) {
+            if (i == index) {
+                return element;
+            }
+            i++;
+        }
+        return null; // should not reach here
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        LinkedHashSetSequencedSet<String> seqSet = new LinkedHashSetSequencedSet<>();
+
+        seqSet.add("A");
+        seqSet.add("B");
+        seqSet.add("C");
+        seqSet.add("A"); // duplicate ignored
+
+        System.out.println("After adding elements:");
+        seqSet.printSet(); // [A, B, C]
+
+        System.out.println("Element at index 1: " + seqSet.get(1)); // B
+
+        seqSet.remove("B");
+        System.out.println("After removing B:");
+        seqSet.printSet(); // [A, C]
+
+        System.out.println("Contains C? " + seqSet.contains("C")); // true
+        System.out.println("Size: " + seqSet.size()); // 2
+
+        seqSet.clear();
+        System.out.println("After clearing:");
+        seqSet.printSet(); // []
+    }
+}
