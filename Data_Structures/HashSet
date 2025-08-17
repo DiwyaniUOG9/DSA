@@ -1,0 +1,74 @@
+// File: HashSetSet.java
+// Simple Set implementation using Java's HashSet
+
+import java.util.HashSet;
+
+public class HashSetSet<T> {
+    private HashSet<T> set;
+
+    // Constructor
+    public HashSetSet() {
+        set = new HashSet<>();
+    }
+
+    // Add element
+    public boolean add(T element) {
+        return set.add(element); // returns false if element already exists
+    }
+
+    // Remove element
+    public boolean remove(T element) {
+        return set.remove(element);
+    }
+
+    // Check if element exists
+    public boolean contains(T element) {
+        return set.contains(element);
+    }
+
+    // Get size of set
+    public int size() {
+        return set.size();
+    }
+
+    // Check if set is empty
+    public boolean isEmpty() {
+        return set.isEmpty();
+    }
+
+    // Print all elements
+    public void printSet() {
+        System.out.println("Set: " + set);
+    }
+
+    // Clear the set
+    public void clear() {
+        set.clear();
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        HashSetSet<String> mySet = new HashSetSet<>();
+
+        mySet.add("Apple");
+        mySet.add("Banana");
+        mySet.add("Cherry");
+        mySet.add("Apple"); // duplicate, won't be added
+
+        System.out.println("After adding elements:");
+        mySet.printSet(); // {Apple, Banana, Cherry}
+
+        System.out.println("Contains Banana? " + mySet.contains("Banana")); // true
+
+        mySet.remove("Banana");
+        System.out.println("After removing Banana:");
+        mySet.printSet(); // {Apple, Cherry}
+
+        System.out.println("Size: " + mySet.size()); // 2
+        System.out.println("Is Empty? " + mySet.isEmpty()); // false
+
+        mySet.clear();
+        System.out.println("After clearing set:");
+        mySet.printSet(); // {}
+    }
+}
