@@ -1,0 +1,138 @@
+// File: LinkedListSequencedCollection.java
+// Linked List with sequenced (index-based) operations
+
+public class LinkedListSequencedCollection<T> {
+
+    // Node class
+    private static class Node<T> {
+        T data;
+        Node<T> next;
+
+        Node(T data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    private Node<T> head;   // first node
+    private int size;       // number of elements
+
+    // Constructor
+    public LinkedListSequencedCollection() {
+        head = null;
+        size = 0;
+    }
+
+    // Add element at the end
+    public void add(T data) {
+        add(size, data); // reuse index-based add
+    }
+
+    // Add element at specific index
+    public void add(int index, T data) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        Node<T> newNode = new Node<>(data);
+
+        if (index == 0) { // insert at head
+            newNode.next = head;
+            head = newNode;
+        } else {
+            Node<T> prev = getNode(index - 1);
+            newNode.next = prev.next;
+            prev.next = newNode;
+        }
+
+        size++;
+    }
+
+    // Remove element at specific index
+    public T remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        Node<T> removed;
+
+        if (index == 0) {
+            removed = head;
+            head = head.next;
+        } else {
+            Node<T> prev = getNode(index - 1);
+            removed = prev.next;
+            prev.next = removed.next;
+        }
+
+        size--;
+        return removed.data;
+    }
+
+    // Get element at index
+    public T get(int index) {
+        return getNode(index).data;
+    }
+
+    // Helper to get node at index
+    private Node<T> getNode(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current;
+    }
+
+    // Replace element at index
+    public void set(int index, T data) {
+        Node<T> node = getNode(index);
+        node.data = data;
+    }
+
+    // Get size
+    public int size() {
+        return size;
+    }
+
+    // Print all elements
+    public void printList() {
+        Node<T> current = head;
+        while (current != null) {
+            System.out.print(current.data + " -> ");
+            current = current.next;
+        }
+        System.out.println("null");
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        LinkedListSequencedCollection<String> list = new LinkedListSequencedCollection<>();
+
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        System.out.println("Initial List:");
+        list.printList();  // A -> B -> C -> null
+
+        list.add(1, "X");
+        System.out.println("After inserting X at index 1:");
+        list.printList();  // A -> X -> B -> C -> null
+
+        System.out.println("Element at index 2: " + list.get(2)); // B
+
+        list.set(2, "Y");
+        System.out.println("After setting index 2 to Y:");
+        list.printList();  // A -> X -> Y -> C -> null
+
+        list.remove(1);
+        System.out.println("After removing index 1:");
+        list.printList();  // A -> Y -> C -> null
+
+        System.out.println("Size: " + list.size()); // 3
+    }
+}
