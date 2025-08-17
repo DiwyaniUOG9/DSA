@@ -1,3 +1,4 @@
+```java
 // File: LinkedHashSetSequencedSet.java
 // Set implementation using LinkedHashSet to preserve insertion order
 
@@ -87,3 +88,4 @@ public class LinkedHashSetSequencedSet<T> {
         seqSet.printSet(); // []
     }
 }
+```
